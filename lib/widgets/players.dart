@@ -1,70 +1,100 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
-Widget players() {
+Widget players(Size size) {
   return Stack(
     children: [
-      Positioned(
-        top: 80,
-        left: 100,
-        child: PlayerSeatImageWidget(
-          name: "GangsterX",
-          balance: "\$799.21",
-          actionText: "Check",
-        ),
+      fixedSeat(
+        size,
+        left: 0.12,
+        top: 0.20,
+        name: "GangsterX",
+        balance: "\$799.21",
+        action: "Check",
       ),
 
-      Positioned(
-        top: 195,
-        left: 80,
-        child: PlayerSeatImageWidget(
-          name: "Gorilla Level",
-          balance: "\$699.45",
-          actionText: "Raise",
-        ),
+      fixedSeat(
+        size,
+        left: 0.10,
+        top: 0.50,
+        name: "Gorilla",
+        balance: "\$699.45",
+        action: "Raise",
       ),
 
-      Positioned(
-        bottom: 70,
-        left: 250,
-        child: PlayerSeatImageWidget(
-          name: "WickShar",
-          balance: "\$566.32",
-          actionText: "Call",
-        ),
+      fixedSeat(
+        size,
+        left: 0.35,
+        top: 0.72,
+        name: "JohnRael",
+        balance: "\$234.91",
+        action: "Call",
       ),
 
-      Positioned(
-        top: 50,
-        right: 80,
-        child: PlayerSeatImageWidget(
-          name: "LoraParis",
-          balance: "\$55.32",
-          actionText: "Fold",
-          positionCoin: true,
-        ),
+      fixedSeat(
+        size,
+        left: 0.55,
+        top: 0.72,
+        name: "WickShar",
+        balance: "\$566.32",
+        action: "Call",
       ),
 
-      Positioned(
-        top: 150,
-        right: 80,
-        child: PlayerSeatImageWidget(
-          name: "JohnRael",
-          balance: "\$235.32",
-          actionText: "Call",
-          positionCoin: true,
-        ),
+      fixedSeat(
+        size,
+        // left: 0.78,
+        // top: 0.30,
+        left: 0.77,
+        top: 0.50,
+        name: "Xhimas",
+        balance: "\$688.21",
+        action: "Call",
+        coin: true,
       ),
-      Positioned(
-        bottom: 70,
-        right: 300,
-        child: PlayerSeatImageWidget(
-          name: "XhimasJohn",
-          balance: "\$688.32",
-          actionText: "Call",   
-        ),
+
+      fixedSeat(
+        size,
+        // left: 0.78,
+        // top: 0.50,
+        left: 0.75,
+        top: 0.20,
+        name: "LoraParis",
+        balance: "\$55.21",
+        action: "Fold",
+        coin: true,
       ),
     ],
   );
+}
+
+Widget fixedSeat(
+  Size size, {
+  required double left,
+  required double top,
+  required String name,
+  required String balance,
+  required String action,
+  bool coin = false,
+}) {
+  return Positioned(
+    left: size.width * left,
+    top: size.height * top,
+    child: Transform.scale(
+      scale: seatScale(size),
+      child: PlayerSeatImageWidget(
+        name: name,
+        balance: balance,
+        actionText: action,
+        positionCoin: coin,
+      ),
+    ),
+  );
+}
+
+double seatScale(Size size) {
+  if (size.width < 600) return 0.70;
+  if (size.width < 900) return 0.85;
+  return 1.0;
 }
 
 class PlayerSeatImageWidget extends StatelessWidget {
@@ -87,9 +117,8 @@ class PlayerSeatImageWidget extends StatelessWidget {
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        // Chips
         Positioned(
-          top: positionCoin == true ? 0 : -60,
+          top: positionCoin == true ? -60 : -60,
           right: positionCoin == true ? null : -10,
           left: positionCoin == true ? -50 : null,
           child: Column(
@@ -104,13 +133,11 @@ class PlayerSeatImageWidget extends StatelessWidget {
           ),
         ),
 
-        // Cards
         Positioned(
           top: -50,
           child: Image.asset("assets/two_card.png", height: 50),
         ),
 
-        // Call Button
         if (actionText != null)
           Positioned(
             top: -25,
@@ -132,7 +159,6 @@ class PlayerSeatImageWidget extends StatelessWidget {
             ),
           ),
 
-        // Bottom Name & Cash Bar
         Stack(
           alignment: Alignment.centerLeft,
           children: [
@@ -160,7 +186,6 @@ class PlayerSeatImageWidget extends StatelessWidget {
           ],
         ),
 
-        // Avatar
         Positioned(
           left: -10,
           bottom: 0,

@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 
-Widget boardCards() {
-  return Positioned(
-    top: 100,
-    left: 0,
-    right: 0,
+Widget boardCards(Size size) {
+  return Align(
+    alignment: const Alignment(0, -0.25),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        boardCard("A", Colors.red),
-        boardCard("4", Colors.red),
-        boardCard("K", Colors.black),
-        boardCard("10", Colors.black),
-        boardCard("5", Colors.red),
+        boardCard("A", Colors.red, size),
+        boardCard("4", Colors.red, size),
+        boardCard("K", Colors.black, size),
+        boardCard("10", Colors.black, size),
+        boardCard("5", Colors.red, size),
       ],
     ),
   );
 }
 
-Widget boardCard(String text, Color color) {
+Widget boardCard(String text, Color color, Size size) {
   return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 4),
-    width: 40,
-    height: 60,
+    margin: EdgeInsets.symmetric(horizontal: size.width * 0.004),
+    width: size.width * 0.045,
+    height: size.height * 0.11,
+    alignment: Alignment.center,
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(8),
     ),
-    alignment: Alignment.center,
     child: Text(
       text,
-      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color),
+      style: TextStyle(
+        fontSize: size.width * 0.022,
+        fontWeight: FontWeight.bold,
+        color: color,
+      ),
     ),
   );
 }
